@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\TenantStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,7 +20,11 @@ class CreateTenantsTable extends Migration
             $table->string('id')->primary();
 
             // your custom columns may go here
-
+            $table->string('name');
+            $table->string('subdomain')->unique();
+            $table->string('custom_domain')->nullable();
+            $table->string('database_name')->unique();
+            $table->enum('status',TenantStatus::values())->default(TenantStatus::Active->value);
             $table->timestamps();
             $table->json('data')->nullable();
         });

@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Enums;
+
+enum OrderStatus: string
+{
+
+    case Pending = 'pending';
+    case Processing = 'processing';
+    case Completed = 'completed';
+    case Cancelled = 'cancelled';
+
+    public static function values(): array
+    {
+        return array_map(fn($status) => $status->value, self::cases());
+    }
+}
