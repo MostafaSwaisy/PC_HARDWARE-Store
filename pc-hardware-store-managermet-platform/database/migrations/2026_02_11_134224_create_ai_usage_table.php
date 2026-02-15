@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('ai_usage', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tenant_id')->constrained()->cascadeOnDelete();
+            $table->string('tenant_id');
+            $table->foreign('tenant_id')->references('id')->on('tenants')->cascadeOnDelete();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->integer('tokens_used');
             $table->decimal('cost', 10, 4);

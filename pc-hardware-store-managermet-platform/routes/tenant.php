@@ -3,6 +3,9 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Tenant\CategoryController;
+use App\Http\Controllers\Tenant\ProductController;
+use App\Http\Controllers\Tenant\SupplierController;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
@@ -19,11 +22,14 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 */
 
 Route::middleware([
-    'web',
+    'api',
+    'auth:sanctum',
     InitializeTenancyByDomain::class,
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
-    Route::get('/', function () {
-        return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
+    Route::prefix('api/v1')->group(function () {
+        Route::apiResource('categories', CategoryController::class);
+        Route::apiResource('suppliers', SupplierController::class);
+        Route::apiResource('products', ProductController::class);
     });
 });

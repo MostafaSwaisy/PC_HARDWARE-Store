@@ -14,7 +14,8 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-             $table->foreignId('tenant_id')->constrained()->cascadeOnDelete();
+            $table->string('tenant_id');
+            $table->foreign('tenant_id')->references('id')->on('tenants')->cascadeOnDelete();
             $table->foreignId('plan_id')->constrained()->cascadeOnDelete();
             $table->string('stripe_subscription_id')->nullable();
             $table->enum('status',SubscriptionStatus::values())->default(SubscriptionStatus::Trial->value);
